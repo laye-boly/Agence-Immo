@@ -1,0 +1,22 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        immobilier_images:
+            uri_prefix: /images/immobilier
+            upload_destination: '%kernel.project_dir%/public/images/immobilier'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        appartement_images:
+            uri_prefix: /images/appartement
+            upload_destination: '%kernel.project_dir%/public/images/appartement'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        
+        maisons_images:
+            uri_prefix: /images/maison
+            upload_destination: '%kernel.project_dir%/public/images/maison'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        
+        cantines_images:
+            uri_prefix: /images/cantine
+            upload_destination: '%kernel.project_dir%/public/images/cantine'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

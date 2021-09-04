@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+{# <!-- Theme Informations -->	 #}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+{# <!-- Theme Informations --> #}
+
+	{% block title %}
+    <title>Holding Cafao | Home </title>
+  {% endblock %}
+
+{# <!-- Stylesheets --> #}
+
+   {% block stylesheets %}
+      {{ encore_entry_link_tags('bootstrap') }}
+  
+      {{ encore_entry_link_tags('style_index') }}
+ 
+      {{ encore_entry_link_tags('common-style') }}
+
+  
+{# <!-- Stylesheets --> #}
+  
+{# <!-- Icons & Fonts --> #}
+    {{ encore_entry_link_tags('font-awesome.min') }}
+
+    {# <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"> #}
+{# <!-- Icons & Fonts --> #}
+
+{% endblock %}
+
+</head>
+<body id="page-top">
+{% block nav %}
+  
+  {# <!-- Navigation Section--> #}
+    <nav id="nav" class="container-fluid navbar navbar-default navbar-fixed-top">
+        <div class="container">
+	      <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+	      	    <a class="navbar-brand page-scroll" href="#page-top"><span>HOLDING CAFAO</span></a>
+	      </div>
+	      <div class="collapse navbar-collapse" id="toggle">
+		      	<ul class="nav navbar-nav">
+		      		<li class="lBorder"><a class="page-scroll" href="#intro">HOME</a></li>
+		      		<li class="lBorder"><a class="page-scroll" href="#selling">ACHETER</a></li>
+		      		<li class="lBorder"><a class="page-scroll" href="#renting">LOUER</a></li>
+		      		<li class="lBorder"><a class="page-scroll" href="#about">A PROPOS DE NOUS</a></li>
+		      		
+		      		<li class="dropdown">
+		                <a class="dropdown-toggle" data-toggle="dropdown" href="">NOS PROJETS 
+		                  <i class="text-right fa fa-angle-up fa-2x"></i>
+		                </a>
+		                <ul class="dropdown-menu">
+		                  <li><a href="{{path("immobilier.projets", {"etat": "termine"})}}">NOS PROJETS TERMINES</a></li>
+			              <li><a href="{{path("immobilier.projets", {"etat": "en_cours"})}}">NOS PROJETS EN COURS</a></li>
+			              <li><a href="{{path("immobilier.projets", {"etat": "a_venir"})}}">NOS PROJETS A VENIR</a></li>
+			            
+		                </ul>
+              </li>
+              
+					    {% if is_granted('IS_AUTHENTICATED_FULLY') %} 
+                  <li class="lBorder"><a class="page-scroll" href="{{path('admin.index')}}">ADMIN</a></li>
+                	<li class="lBorder"><a href="{{path('app_logout')}}"><i class="fas fa-sign-out-alt"></i>DECONNEXION</a></li>
+              		{% else %}
+               		<li class="lBorder"><a href="{{path('app_login')}}"><i class="fas fa-sign-in-alt"></i>CONNEXION</a></li>
+             	{% endif %}
+		      	</ul>
+	      </div>							
+        </div>
+	  
+    </nav>
+  {# <!-- End of Navigation section--> #}
+
+  {% endblock %}
+
+  {# <!-- Intro Section --> #}
+  
+  {% block intro %}
+
+  {% endblock %}
+
+  {# <!-- End of intro section--> #}
+
+  {# <!-- Acheter Section --> #}
+
+  {% block acheter %}
+
+  {% endblock %}
+  {# <!-- End of Acheter Section --> #}
+
+  {# <!-- Start of Renting Section --> #}
+
+  {% block renting %}
+
+ 
+
+  {% endblock %}
+
+  {# <!-- About Section --> #}
+
+  {% block about %}
+
+  <div id="about">
+  	<div class="container-fluid">
+  		<div class="container text-center">
+  			<div class="about-index-header">
+	  			<ul class="title section-title">
+		  			<li class="line"></li>
+		  			<li><h2>A PROPOS DE NOUS</h2></li>
+		  			<li class="line"></li>
+	  		    </ul>
+	  		    <p class="text-muted header-para">Nos valeurs</p>
+  		    </div>
+  		    <div class="about-index-body">
+	  		    <div class="row">
+	  		    	<div class="col-xs-12 col-sm-4">
+	  		    		<div class="border"><i class="fa fa-group"></i></div>
+	  		    		<h4>Community</h4>
+	  		    		<p>Laudantium maiores odit qui est tempora eos, nostrum provident explicabo dignissimos debitis vel! Adipisci eius voluptates, ad aut recusandae minus eaque facere.
+	  		    		</p>
+	  		    		<hr class="underline">
+	  		    	</div>
+	  		    	<div class="col-xs-12 col-sm-4">
+	  		    		<div class="border"><i class="fa fa-home"></i></div>
+	  		    		<h4>Establishment</h4>
+	  		    		<p>Laudantium maiores odit qui est tempora eos, nostrum provident explicabo dignissimos debitis vel! Adipisci eius voluptates, ad aut recusandae minus eaque facere.
+	  		    		</p>
+	  		    		<hr class="underline">
+	  		    	</div>
+	  		    	<div class="col-xs-12 col-sm-4">
+	  		    		<div class="border"><i class="fa fa-unlock-alt"></i></div>
+	  		    		<h4>Overture</h4>
+	  		    		<p>Laudantium maiores odit qui est tempora eos, nostrum provident explicabo dignissimos debitis vel! Adipisci eius voluptates, ad aut recusandae minus eaque facere.
+	  		    		</p>
+	  		    		<hr class="underline">
+	  		    	</div>
+	  		    </div>
+  		    </div>
+  		</div>
+  	</div>
+  </div>
+
+  {% endblock %}
+  {# <!-- End of About Section --> #}
+
+  {# <!-- Contact Section --> #}
+
+  {% block contact %}
+
+  
+
+  {% endblock %}
+
+  {# <!-- Footer Section --> #}
+
+  {% block footer %}
+     <footer>
+        <div class="row container-fluid">
+          <div class="container text-center">
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <h5><span>HOLDING CAFAO</span></h5>
+            <ul>
+              <li><a class="page-scroll" href="#selling">Acheter</a></li>
+              <li><a class="page-scroll" href="#renting">Louer</a></li>
+              <li><a class="page-scroll" href="#about">A propos de nous</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <h5>NOUS SUIVRE</h5>
+            <ul>
+              <li><a href=""><i class="fa fa-facebook"></i> Facebook</a></li>
+              <li><a href=""><i class="fa fa-twitter"></i> Twitter</a></li>
+              <li><a href=""><i class="fa fa-google-plus"></i> Google Plus</a></li>
+              <li><a href=""><i class="fa fa-linkedin"></i> Linkedin</a></li>
+              <li><a href=""><i class="fa fa-instagram"></i> Instagram</a></li>
+             </ul>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4">
+             <h5>NOS PROJETS</h5>
+             <ul>
+			 	<li><a href="{{path("immobilier.projets", {"etat": "termine"})}}">nos projets terminés</a></li>
+			    <li><a href="{{path("immobilier.projets", {"etat": "en_cours"})}}">nos projets en cours</a></li>
+			    <li><a href="{{path("immobilier.projets", {"etat": "a_venir"})}}">nos projets à venir</a></li>
+              
+             </ul>
+          </div>
+          {# <div class="col-xs-12 col-sm-6 col-md-3">
+            <h5>SUSCRIBE TO OUR NEWSLETTER</h5>
+            <p>Enter your email adresse to receive our newsletter!</p>
+            {# <form class="form-horizontal">
+               <div class="form-group">
+                 <div class="input-group">
+                 <input type="text" class="form-control" placeholder="Enter Your E-mail">
+                 <span class="input-group-btn">
+                   <button type="submit" class="btn"><i class="fa fa-send-o"></i></button>
+                 </span>
+                 </div>
+               </div>
+            </form> #}
+          {# </div>  #}
+         </div> 
+        </div>
+       
+     </footer>
+  {# <!-- End of Footer Section --> #}
+
+  {% endblock %}
+
+ {% block modalBoxesVente %}
+
+ {% endblock %}
+
+ {% block modalBoxesLocation %}
+
+ {% endblock %}
+
+{% block javascripts %}
+
+{# <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> #}
+{# <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> #}
+{# <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> #}
+
+<script
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
+  <!-- jQuery-->
+    {# <script src="js/jquery.min.js"></script> #}
+     {# {{ encore_entry_script_tags('jquery.min') }} #}
+
+  <!-- Bootstrap Core Javascript--> 
+     {{ encore_entry_script_tags('bootstrap.min') }}
+    {# <script src="bootstrap/js/bootstrap.min.js"></script> #}
+  <!-- Plugins -->
+    {{ encore_entry_script_tags('jquery.easing.min') }}
+
+    {{ encore_entry_script_tags('script') }}
+
+    {# <script src="js/jquery.easing.min.js"></script>
+    <script src="js/script.js"></script> #}
+
+{% endblock %}
+</body>
+</html>

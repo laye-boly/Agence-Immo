@@ -1,0 +1,19 @@
+.btn-custom {
+    border-radius: 0px;
+    border: solid 1px #ddd;
+    background-color: #fff;
+    color: #999;
+    margin: -2px;
+    text-shadow: 1px 1px 1px #ddd;
+    box-shadow: 1px 1px 0.5px #aaa
+}
+.type-logement{
+    font-family: 'nixie_oneregular';
+    font-weight: bold;
+    color: #000!important;
+}
+
+.description-logement, .fonctionnalites{
+    font-family: 'latoregular';
+    color: #999;
+}

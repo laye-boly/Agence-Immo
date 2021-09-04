@@ -1,0 +1,1008 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+	{{ encore_entry_link_tags('home') }}
+{% endblock %}
+
+{% block intro %}
+
+    <header id="intro">
+    	<div class="intro-box-index">
+		    <span id="from" style="display: none;">{{from}}</span>
+			<span id="number" style="display: none;">{{number}}</span/>
+   			<div id="header-carousel" class="carousel slide">
+   				<ol class="carousel-indicators" id="indicators">
+				   {% set idCaroussel = 0 %}
+				   {% for immobilier in immobiliers %}
+				   
+   					<li data-target="#header-carousel" class="{% if immobilier.id == minId %} active {% endif %}" data-slide-to="{{ idCaroussel }}"></li>
+   					
+					{% set idCaroussel = idCaroussel + 1 %}
+				   {% endfor %}
+   				</ol>
+   				<div class="carousel-inner" id="carousel-inner">
+
+				   {% for immobilier in immobiliers %}
+
+   					<div class="item {% if immobilier.id == minId %} active {% endif %}">
+
+					   {% if immobilier.images is not empty %}
+
+   						<img class="img-responsive" 
+						   src="{{ vich_uploader_asset(immobilier.images.first, 'imageFile')}}"
+						   style ="width: 100%"
+						>
+					   {% else %}
+					   <img class="img-responsive width-100" src="/images/defaut/immobilier.jpg" style ="width: 100%">
+					   {% endif %}
+   						<div class="carousel-caption">
+   							<div class="carousel-caption-content">
+   								<h1>{{immobilier.titre}}</h1>
+   								<p>{{immobilier.description | slice(0, 30)}} ...</p>
+   							</div>
+   							<div class="carousel-caption-btn">
+   								<a href="{{path('immobilier.show', {slug: immobilier.slug, id: immobilier.id})}}" class="btn btn-danger">EN SAVOIR PLUS</a>
+   								
+   							</div>
+   						</div>
+   					</div>
+
+			        {% endfor %}
+
+   				</div>
+   			</div>
+       </div>
+    </header>
+
+  {% endblock %}
+
+{# <!-- Intro Section --> #}
+
+{# <!-- Selling Section --> #}
+
+  {% block acheter %}
+  
+  
+  <div id="selling" class="container-fluid selling-index">
+  	<div class="container text-center">
+  		<ul class="title section-title">
+  			<li class="line"></li>
+  			<li><h2>ACHETER</h2></li>
+  			<li class="line"></li>
+  		</ul>
+  		<p class="text-muted header-para">Trouvez votre bonheur</p>
+  		<div class="selling-body">
+		  {# <div class="row">
+  			<div class="col-xs-12 col-sm-2">
+				<p>Filtrer</p> #}
+				{{ include("form_search_selling.html.twig") }}
+  			{# </div>
+
+  			<div class="col-xs-12 col-sm-10"> #}
+  			<ul class="selling-body-menu" style="margin-top:40px">
+  				{% if appartementsAVendre is not empty  %}
+				<li class="active" id="appartement-selling"><a href="#appartments" data-toggle="tab">Appartement</a></li>
+				{% endif %}
+				{% if maisonsAVendre is not empty %}
+  				<li class="maisons {% if appartementsAVendre is empty  %} active {% endif %}" id="maison-selling">
+				  <a href="#villas" data-toggle="tab">Maisons</a>
+				</li>
+				{% endif %}
+				{% if cantinesAVendre is not empty %}
+  				<li {% if appartementsAVendre is empty  and maisonsAVendre is empty %} class="active" {% endif %} id="cantine-selling">
+				  <a href="#fields" data-toggle="tab">Cantines</a>
+				</li>
+				{% endif %}
+  			</ul>
+  			<div class="tab-content">
+			    {% if appartementsAVendre is not empty  %}
+				
+	  			<div id="appartments" class="tab-pane active">
+	  				<div class="row">
+						{% for appartementAVendre in appartementsAVendre %}
+	  					<div class="col-xs-12 col-sm-6 col-md-3">
+	  						<div class="img-block">
+							  	{% if appartementAVendre.images is not empty  %}
+	  							<img class="img-responsive" src="{{ vich_uploader_asset(appartementAVendre.images.first, 'imageFile')}}">
+								{% else %}
+								<img class="img-responsive" src="/images/defaut/appartement.jpg">				
+								{% endif %}
+	  							<h5>{{appartementAVendre.type}}</h5>
+	  							<p>{{appartementAVendre.description | slice(0, 20)}}.</p>
+	  							<div class="btn-block">
+	  								<button class="btn animation" data-toggle="modal" data-target="{{'#description'  ~ appartementAVendre.id}}">Voir la Description</button>
+	  								{% if appartementAVendre.images is not empty  %}
+									<button class="btn animation" data-toggle="modal" data-target="{{'#pictures' ~ appartementAVendre.id}}">Images</button>
+	  								{% endif %}
+								  </div>
+	  						</div>
+	  					</div>
+						{% endfor %}
+
+	  					
+	  					<div class="col-xs-12">
+		  					<div class="tab-btn">
+		  						<a href="" class="btn"><i class="fa fa-ellipsis-h animation"></i></a>
+		  					</div>
+	  					</div>
+	  				</div>
+	  			</div>
+
+				{% endif %}	
+
+				 {% if maisonsAVendre is not empty  %}
+				
+	  			<div id="villas" class="tab-pane {% if appartementsAVendre is empty %} active {% endif %}">
+	  				<div class="row">
+						{% for maisonAVendre in maisonsAVendre %}
+	  					<div class="col-xs-12 col-sm-6 col-md-3">
+	  						<div class="img-block">
+							  	{% if maisonAVendre.images is not empty  %}
+	  							<img class="img-responsive" src="{{ vich_uploader_asset(maisonAVendre.images.first, 'imageFile')}}">
+								{% else %}
+								<img class="img-responsive" src="/images/defaut/appartement.jpg">				
+								{% endif %}
+	  							<h5>{{maisonAVendre.type}}</h5>
+	  							<p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper.</p>
+	  							<div class="btn-block">
+	  								<button class="btn animation" data-toggle="modal" data-target="{{'#description_maison'  ~ maisonAVendre.id}}">Voir la Description</button>
+	  								{% if maisonAVendre.images is not empty  %}
+									<button class="btn animation" data-toggle="modal" data-target="{{'#pictures_maison' ~ maisonAVendre.id}}">Images</button>
+	  								{% endif %}
+								  </div>
+	  						</div>
+	  					</div>
+						{% endfor %}
+
+	  					
+	  					<div class="col-xs-12">
+		  					<div class="tab-btn">
+		  						<a href="" class="btn"><i class="fa fa-ellipsis-h animation"></i></a>
+		  					</div>
+	  					</div>
+	  				</div>
+	  			</div>
+
+				{% endif %}	
+
+				{% if cantinesAVendre is not empty  %}
+				
+	  			<div id="fields" class="tab-pane {% if appartementsAVendre is empty and maisonsAVendre  is empty %} active {% endif %}">
+	  				<div class="row">
+						{% for cantineAVendre in cantinesAVendre %}
+	  					<div class="col-xs-12 col-sm-6 col-md-3">
+	  						<div class="img-block">
+							  	{% if cantineAVendre.images is not empty  %}
+	  							<img class="img-responsive" src="{{ vich_uploader_asset(cantineAVendre.images.first, 'imageFile')}}">
+								{% else %}
+								<img class="img-responsive" src="/images/defaut/appartement.jpg">				
+								{% endif %}
+	  							<h5>{{cantineAVendre.type}}</h5>
+	  							<p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper.</p>
+	  							<div class="btn-block">
+	  								<button class="btn animation" data-toggle="modal" data-target="{{'#description_cantine'  ~ cantineAVendre.id}}">Voir la Description</button>
+	  								{% if cantineAVendre.images is not empty  %}
+									<button class="btn animation" data-toggle="modal" data-target="{{'#pictures_cantine' ~ cantineAVendre.id}}">Images</button>
+	  								{% endif %}
+								  </div>
+	  						</div>
+	  					</div>
+						{% endfor %}
+
+	  					
+	  					<div class="col-xs-12">
+		  					<div class="tab-btn">
+		  						<a href="" class="btn"><i class="fa fa-ellipsis-h animation"></i></a>
+		  					</div>
+	  					</div>
+	  				</div>
+	  			</div>
+
+				{% endif %}	
+				
+  			</div>
+  		</div>
+  	</div>
+  </div>
+  
+
+  {% endblock %}
+  {# <!-- End of Selling Section --> #}
+
+   {% block modalBoxesVente %}
+
+  {# <!-- Appartement a vendre Modal Boxes  --> #}
+     {# <!-- appartement description--> #}
+	 {% if appartementsAVendre is not empty %}
+	 {% for appartementAVendre in appartementsAVendre %}
+     <div id="{{'description' ~ appartementAVendre.id }}" class="modal fade main-modal"  tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-6 col-sm-push-3">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+			        <div class="description">
+			        	<h4>Description</h4>
+			        	<div class="box">
+			        	<p>{{ appartementAVendre.description}}</p>
+                        <ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Surface : {{appartementAVendre.surface}} m²</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementAVendre.chambres}} Chambres</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementAVendre.sallesDeBain}} Salle de bains</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementAVendre.cuisines}} Cuisines</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementAVendre.salons}} Salons</li>
+                        </ul>
+						<p>Statistique</p>
+						<ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Total : {{appartementAVendre.nbreTypeAppartement}} m²</li>
+                    		<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Mis en vente : {{appartementAVendre.nbreAppartAVendre}}</li>
+                        
+                        </ul>
+                        <p class="footer">
+                        	<span class="title">Prix</span><span class="label label-danger text-left">{{appartementAVendre.prix}} FCFA</span>
+                        </p>
+                        </div>
+			        </div>
+                	<div class="map">
+            		   {% for immeuble in appartementAVendre.immeubles %} 
+						<h4>Immeuble {{immeuble.titre}}</h4>
+						<p>{{immeuble.adresse}}</p> 
+						{% if immeuble.fonctionnalites is not empty %}
+						<p>Fonctionnalité de l'immeuble</p>
+						<ul>
+						 {% for fonctionnalite in immeuble.fonctionnalites %} 
+						 <li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{fonctionnalite.fonctionnalite}}</li>
+						{% endfor %}
+						
+						{% endif %}
+						</ul>
+						<a href="#" style="color: #d92400; font-weight: bold;">Plus de détails sur l'immeuble...</a>
+						{% endfor %}
+						<div class="box">
+							<div class="google-map"><i class="fa fa-map-marker"></i></div>
+						</div>
+			        </div>
+                </div>
+     		</div>
+     	</div>
+     </div> 
+	 
+  {# <!-- End of Appartement description--> #}
+  {# <!-- appartement Pictures--> #}
+
+     {% if appartementAVendre.images is not empty %}
+	 
+     <div id="{{'pictures' ~ appartementAVendre.id}}" class="modal fade main-modal" tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-8 col-sm-push-2">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+                	<div id="appartement-pictures" class="carousel slide">
+                		<div class="carousel-inner">
+						   {% set active = 0 %}
+						   {% for image in appartementAVendre.images %}
+						   {% set active = active + 1 %}
+                			<div class="item {% if active == 1 %} active {% endif %}">
+                				<img class="img-responsive img-thumbnail" src="{{ vich_uploader_asset(appartementAVendre.images.first, 'imageFile')}}">
+                			</div>  
+							{% endfor %}           			
+                		</div>
+	                	<a class="direction direction-left animation" href="#appartement-pictures" data-slide="prev">
+	                		<i class="fa fa-chevron-left"></i>
+	                	</a>
+	                	<a class="direction direction-right animation" href="#appartement-pictures" data-slide="next">
+	                		<i class="fa fa-chevron-right"></i>
+	                	</a>
+                	</div>
+                </div>
+     		</div>
+     	</div>
+     </div>
+	 {% endif %}
+	 {% endfor %}
+     {% endif %}
+  {# <!-- End of Appartement Pictures--> #}
+  {# <!-- End of Appartement Modal Boxes --> #}
+
+  {# <!-- Maison Modal Boxes  --> #}
+     {# <!-- maison  description--> #}
+
+	 {% if maisonsAVendre is not empty %}
+	 {% for maisonAVendre in maisonsAVendre %}
+	 
+     <div id="{{'description_maison' ~ maisonAVendre.id }}" class="modal fade main-modal"  tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-6 col-sm-push-3">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+			        <div class="description">
+			        	<h4>Description de {{maisonAVendre.type}}</h4>
+						
+			        	<div class="box">
+			        	<p class="word_wrap">{{ maisonAVendre.description}}</p>
+                        <ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Surface : {{maisonAVendre.surface}} m²</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.chambres}} Chambres</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.sallesDeBain}} Salle de bains</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.cuisines}} Cuisines</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.salons}} Salons</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.etages}} Etages</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.garages}} Garages</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.piscines}} Piscines</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonAVendre.jardins}} Jardin</li>
+                        </ul>
+						<p>Statistique</p>
+						<ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Total : {{maisonAVendre.nbreTypeMaison}}</li>
+                    		<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Mis en vente : {{maisonAVendre.nbreMaisonAVendre}}</li>
+                        
+                        </ul>
+                        <p class="footer">
+                        	<span class="title">Prix</span><span class="label label-danger text-left">{{maisonAVendre.prix}} FCFA</span>
+                        </p>
+                        </div>
+			        </div>
+                	<div class="map">
+            		   {% for cite in maisonAVendre.cites %} 
+						<h4>Immeuble {{cite.titre}}</h4>
+						<p>{{cite.adresse}}</p> 
+						{% if cite.fonctionnalites is not empty %}
+						<p>Fonctionnalité de la Cité</p>
+						<ul>
+						 {% for fonctionnalite in cite.fonctionnalites %} 
+						 <li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{fonctionnalite.fonctionnalite}}</li>
+						{% endfor %}
+						
+						{% endif %}
+						</ul>
+						<a href="#" style="color: #d92400; font-weight: bold;">Plus de détails sur la cité...</a>
+						{% endfor %}
+						<div class="box">
+							<div class="google-map"><i class="fa fa-map-marker"></i></div>
+						</div>
+			        </div>
+                </div>
+     		</div>
+     	</div>
+     </div> 
+	 
+  {# <!-- End of maison description--> #}
+  {# <!-- maison Pictures--> #}
+
+     {% if maisonAVendre.images is not empty %}
+	 
+     <div id="{{'pictures_maison' ~ maisonAVendre.id}}" class="modal fade main-modal" tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-8 col-sm-push-2">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+                	<div id="maison-pictures" class="carousel slide">
+                		<div class="carousel-inner">
+						   {% set active = 0 %}
+						   {% for image in maisonAVendre.images %}
+						   {% set active = active + 1 %}
+                			<div class="item {% if active == 1 %} active {% endif %}">
+                				<img class="img-responsive img-thumbnail" src="{{ vich_uploader_asset(maisonAVendre.images.first, 'imageFile')}}">
+                			</div>  
+							{% endfor %}           			
+                		</div>
+	                	<a class="direction direction-left animation" href="#maison-pictures" data-slide="prev">
+	                		<i class="fa fa-chevron-left"></i>
+	                	</a>
+	                	<a class="direction direction-right animation" href="#maison-pictures" data-slide="next">
+	                		<i class="fa fa-chevron-right"></i>
+	                	</a>
+                	</div>
+                </div>
+     		</div>
+     	</div>
+     </div>
+	 {% endif %}
+	 {% endfor %}
+     {% endif %}
+  {# <!-- End of maison Pictures--> #}
+  {# <!-- End of maison Modal Boxes --> #}
+
+  {# <!-- Cantine Modal Boxes  --> #}
+     {# <!-- cantine  description--> #}
+
+	 {% if cantinesAVendre is not empty %}
+	 {% for cantineAVendre in cantinesAVendre %}
+	 
+     <div id="{{'description_cantine' ~ cantineAVendre.id }}" class="modal fade main-modal"  tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-6 col-sm-push-3">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+			        <div class="description">
+			        	<h4>Description de {{cantineAVendre.type}}</h4>
+			        	<div class="box">
+			        	<p class="word_wrap">{{ cantineAVendre.description}}</p>
+                        <ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Surface : {{cantineAVendre.surface}} m²</li>
+                        	
+                        </ul>
+						<p>Statistique</p>
+						<ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Total : {{cantineAVendre.nbreTypeCantine}}</li>
+                    		<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Mis en vente : {{cantineAVendre.nbreCantineAvendre}}</li>
+                        
+                        </ul>
+                        <p class="footer">
+                        	<span class="title">Prix</span><span class="label label-danger text-left">{{cantineAVendre.prix}} FCFA</span>
+                        </p>
+                        </div>
+			        </div>
+                	<div class="map">
+            		   {% for centre in cantineAVendre.centres %} 
+						<h4>Centre commercial  {{centre.titre}}</h4>
+						<p>{{centre.adresse}}</p> 
+						{% if centre.fonctionnalites is not empty %}
+						<p>Fonctionnalité de la Cité</p>
+						<ul>
+						 {% for fonctionnalite in centre.fonctionnalites %} 
+						 <li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{fonctionnalite.fonctionnalite}}</li>
+						{% endfor %}
+						
+						{% endif %}
+						</ul>
+						<a href="#" style="color: #d92400; font-weight: bold;">Plus de détails sur le centre commercial...</a>
+						{% endfor %}
+						<div class="box">
+							<div class="google-map"><i class="fa fa-map-marker"></i></div>
+						</div>
+			        </div>
+                </div>
+     		</div>
+     	</div>
+     </div> 
+	 
+  {# <!-- End of cantine description--> #}
+  {# <!-- cantine Pictures--> #}
+
+     {% if cantineAVendre.images is not empty %}
+	 
+     <div id="{{'pictures_cantine' ~ cantineAVendre.id}}" class="modal fade main-modal" tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-8 col-sm-push-2">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+                	<div id="cantine-pictures" class="carousel slide">
+                		<div class="carousel-inner">
+						   {% set active = 0 %}
+						   {% for image in cantineAVendre.images %}
+						   {% set active = active + 1 %}
+                			<div class="item {% if active == 1 %} active {% endif %}">
+                				<img class="img-responsive img-thumbnail" src="{{ vich_uploader_asset(cantineAVendre.images.first, 'imageFile')}}">
+                			</div>  
+							{% endfor %}           			
+                		</div>
+	                	<a class="direction direction-left animation" href="#cantine-pictures" data-slide="prev">
+	                		<i class="fa fa-chevron-left"></i>
+	                	</a>
+	                	<a class="direction direction-right animation" href="#cantine-pictures" data-slide="next">
+	                		<i class="fa fa-chevron-right"></i>
+	                	</a>
+                	</div>
+                </div>
+     		</div>
+     	</div>
+     </div>
+	 {% endif %}
+	 {% endfor %}
+     {% endif %}
+  {# <!-- End of cantine Pictures--> #}
+  {# <!-- End of cantines Modal Boxes --> #}
+
+  {% endblock %}
+  {# End of selling section #}
+
+  {# beginning renting section #}
+  {% block renting %}
+
+<div id="renting">
+  	<div class="renting-index-header text-center">
+  		<ul class="title section-title">
+  			<li class="line"></li>
+  			<li><h2>LOUER</h2></li>
+  			<li class="line"></li>
+  		</ul>
+  		<p class="text-muted header-para">Louer une maison, un appartement ou un local de commerce</p>
+  		<i class="fa fa-caret-down"></i>
+  	</div>
+	<div class="container text-muted" id="form-search-renting-container">
+		{{include("form_search_renting.html.twig")}}
+	</div>
+  	<div class="renting-index-body container-fluid">
+  		<div class="container">
+		  	<ul class="nav nav-tabs nav-justified" style="margin-top:40px">
+  				{% if appartementsALouer is not empty  %}
+				<li class="active" id="appartement-renting"><a href="#appartments_louer" data-toggle="tab">Appartements</a></li>
+				{% endif %}
+				{% if maisonsALouer is not empty %}
+  				<li class="maisons {% if appartementsALouer is empty  %} active {% endif %}" id="maison-renting">
+				  <a href="#maisons_louer" data-toggle="tab">Maisons</a>
+				</li>
+				{% endif %}
+				{% if cantinesALouer is not empty %}
+  				<li {% if appartementsALouer is empty  and maisonsALouer is empty %} class="active" {% endif %} id="cantine-renting">
+				  <a href="#cantines_louer" data-toggle="tab">Cantines</a>
+				</li>
+				{% endif %}
+  			</ul>
+
+			{# fin tab content de la location #}
+			
+			<div class="tab-content">
+
+			{# debut maison a louer #}
+			{% if appartementsALouer is not empty %}
+			<div class="tab-pane active" id="appartments_louer">
+	  		
+                {% set testAppartement = 1 %}
+				{% set nbreColonne = 1 %}
+			  	{% for appartementALouer in appartementsALouer %}
+				{% if nbreColonne % 2 != 0 %}
+					<div class="row" style="margin: 80px 0 110px 0;">
+				{% endif %}
+				{% if testAppartement % 2 != 0 %}
+	  			<div class="col-xs-12 col-sm-6 col-md-3 text-right">
+	  				<h4>{{appartementALouer.type | slice(0, 10)}}</h4>
+					  <span style="fong-weight: bold;">{{testAppartement}}</span>
+	  				<hr>
+	  				<p class="word_wrap">
+	  				   {{appartementALouer.description | slice(0, 50)}} ...
+	  				</p>
+	  				<a href="{{'#description_appartement_louer' ~ appartementALouer.id}}" data-toggle="modal">Plus de détail <i class="fa fa-caret-right"></i></a>
+		
+	  			</div>
+				{% if appartementALouer.images is not empty %}
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="{{ vich_uploader_asset(appartementALouer.images.first, 'imageFile') }}">
+	  			</div>
+				{% else %}
+				<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="/images/defaut/appartement.jpg">
+	  			</div>
+				{% endif %}
+
+				{% else %}
+				{% if appartementALouer.images is not empty %}
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-responsive img-thumbnail" src="{{ vich_uploader_asset(appartementALouer.images.first, 'imageFile') }}">
+	  			</div>
+
+				{% else %}
+
+				<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="/images/defaut/appartement.jpg">
+	  			</div>
+
+				{% endif %}
+
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<h4>{{appartementALouer.type | slice(0, 10)}}</h4>
+					  <span style="fong-weight: bold;">{{testAppartement}}</span>
+	  				<hr>
+	  				<p class="word_wrap">
+	  				  {{appartementALouer.description | slice(0, 50)}} ...
+	  				</p>
+	  				<a href="{{'#description_appartement_louer' ~ appartementALouer.id}}" data-toggle="modal">Plus de détail <i class="fa fa-caret-right"></i></a>
+					
+	  			</div>
+				{% endif %}
+	  		
+			  {% set testAppartement = testAppartement + 1 %}
+			  
+			{% if nbreColonne % 2 == 0 or appartementsALouer|length == testAppartement %}
+			</div>
+			{% endif %}
+
+			{% set nbreColonne = nbreColonne + 1 %}
+
+			{% endfor %}
+			</div>
+			{% endif %}
+		</div>
+
+		{# fin maison a louer #}
+
+		{# Debut maisons a louer #}
+
+		{% if maisonsALouer is not empty %}
+			<div class="tab-pane {% if appartementsALouer is empty %} active {% endif %}" id="maisons_louer">
+	  		
+                {% set testMaison = 1 %}
+				{% set nbreColonneMaisons = 1 %}
+			  	{% for maisonALouer in maisonsALouer %}
+				{% if nbreColonneMaisons % 2 != 0 %}
+					<div class="row" style="margin: 80px 0 110px 0;">
+				{% endif %}
+				{% if testMaison % 2 != 0 %}
+	  			<div class="col-xs-12 col-sm-6 col-md-3 text-right">
+	  				<h4>{{maisonALouer.type | slice(0, 10)}}</h4>
+					  <span style="fong-weight: bold;">{{testMaison}}</span>
+	  				<hr>
+	  				<p class="word_wrap">
+	  				   {{maisonALouer.description | slice(0, 50)}} ...
+	  				</p>
+	  				<a href="{{'#description_maison_louer' ~ maisonALouer.id}}" data-toggle="modal">Plus de détail <i class="fa fa-caret-right"></i></a>
+		
+	  			</div>
+				{% if maisonALouer.images is not empty %}
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="{{ vich_uploader_asset(maisonALouer.images.first, 'imageFile') }}">
+	  			</div>
+				{% else %}
+				<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="/images/defaut/appartement.jpg">
+	  			</div>
+				{% endif %}
+
+				{% else %}
+				{% if maisonALouer.images is not empty %}
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-responsive img-thumbnail" src="{{ vich_uploader_asset(maisonALouer.images.first, 'imageFile') }}">
+	  			</div>
+
+				{% else %}
+
+				<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="/images/defaut/appartement.jpg">
+	  			</div>
+
+				{% endif %}
+
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<h4>{{maisonALouer.type | slice(0, 10)}}</h4>
+					  
+	  				<hr>
+	  				<p class="word_wrap">
+	  				  {{maisonALouer.description | slice(0, 50)}} ...
+	  				</p>
+	  				<a href="{{'#description_maison_louer' ~ maisonALouer.id}}" data-toggle="modal">Plus de détail <i class="fa fa-caret-right"></i></a>
+					
+	  			</div>
+				{% endif %}
+	  		
+			  {% set testMaison = testMaison + 1 %}
+			  
+			{% if nbreColonneMaisons % 2 == 0 or maisonALouer|length == testMaison %}
+			</div>
+			{% endif %}
+
+			{% set nbreColonneMaisons = nbreColonneMaisons + 1 %}
+
+			{% endfor %}
+			</div>
+			{% endif %}
+		
+
+		{# fin des maisons a louer #}
+
+		{# debut cantines a louer #}
+
+		{% if cantinesALouer is not empty %}
+
+			<div class="tab-pane {% if appartementsALouer is empty and maisonsALouer is empty %} active {% endif %}" id="cantines_louer">
+	  		
+                {% set testCantine = 1 %}
+				{% set nbreColonneCantine = 1 %}
+
+			  	{% for cantineALouer in cantinesALouer %}
+
+				{% if nbreColonneCantine % 2 != 0 %}
+					<div class="row" style="margin: 80px 0 110px 0;">
+				{% endif %}
+
+				{% if testCantine % 2 != 0 %}
+	  			<div class="col-xs-12 col-sm-6 col-md-3 text-right">
+	  				<h4>{{cantineALouer.type | slice(0, 10)}}</h4>
+					
+	  				<hr>
+	  				<p class="word_wrap">
+	  				   {{cantineALouer.description | slice(0, 50)}} ...
+	  				</p>
+	  				<a href="{{'#description_cantine_louer' ~ cantineALouer.id}}" data-toggle="modal">Plus de détail <i class="fa fa-caret-right"></i></a>
+		
+	  			</div>
+
+				{% if cantineALouer.images is not empty %}
+
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="{{ vich_uploader_asset(cantineALouer.images.first, 'imageFile') }}">
+	  			</div>
+
+				{% else %}
+
+				<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="/images/defaut/appartement.jpg">
+	  			</div>
+
+				{% endif %}
+
+				{% else %}
+
+				{% if cantineALouer.images is not empty %}
+
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-responsive img-thumbnail" src="{{ vich_uploader_asset(cantineALouer.images.first, 'imageFile') }}">
+	  			</div>
+
+				{% else %}
+
+				<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<img class="img-thumbnail img-responsive" src="/images/defaut/appartement.jpg">
+	  			</div>
+
+				{% endif %}
+
+	  			<div class="col-xs-12 col-sm-6 col-md-3">
+	  				<h4>{{cantineALouer.type | slice(0, 10)}}</h4>
+					  
+	  				<hr>
+	  				<p class="word_wrap">
+	  				  {{cantineALouer.description | slice(0, 50)}} ...
+	  				</p>
+	  				<a href="{{'#description_cantine_louer' ~ cantineALouer.id}}" data-toggle="modal">Plus de détail <i class="fa fa-caret-right"></i></a>
+					
+	  			</div>
+				{% endif %}
+	  		
+			  {% set testCantine = testCantine + 1 %}
+			  
+			{% if nbreColonneCantine % 2 == 0 or cantineALouer|length == testCantine %}
+			</div>
+			{% endif %}
+
+			{% set nbreColonneCantine = nbreColonneCantine + 1 %}
+
+			{% endfor %}
+			</div>
+			{% endif %}
+		
+
+		{# fin cantines a louer #}
+
+		</div>
+		{# fin tab content de la location #}
+
+	  		
+  		</div>
+  	</div>
+	</div>
+  </div>
+  {% endblock %}
+
+  {# End of renting section #}
+
+{# beginning of modalBoxesLocation block  #}
+
+{% block modalBoxesLocation %}
+	{# <!-- Appartement a louer Modal Boxes  --> #}
+     {# <!-- appartement a louer description--> #}
+
+	 {% if appartementsALouer is not empty %}
+	 {% for appartementALouer in appartementsALouer %}
+     <div id="{{'description_appartement_louer' ~ appartementALouer.id }}" class="modal fade main-modal"  tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-6 col-sm-push-3">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+			        <div class="description">
+			        	<h4>Description</h4>
+			        	<div class="box">
+			        	<p class="word_wrap">{{ appartementALouer.description}}</p>
+                        <ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Surface : {{appartementALouer.surface}} m²</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementALouer.chambres}} Chambres</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementALouer.sallesDeBain}} Salle de bains</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementALouer.cuisines}} Cuisines</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{appartementALouer.salons}} Salons</li>
+                        </ul>
+						<p>Statistique</p>
+						<ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Total : {{appartementALouer.nbreTypeAppartement}}</li>
+                    		<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Mis en vente : {{appartementALouer.nbreAppartALouer}}</li>
+                        
+                        </ul>
+                        <p class="footer">
+                        	<span class="title">Prix</span><span class="label label-danger text-left">{{appartementALouer.prix}} FCFA</span>
+                        </p>
+                        </div>
+			        </div>
+                	<div class="map">
+            		   {% for immeuble in appartementALouer.immeubles %} 
+						<h4>Immeuble {{immeuble.titre}}</h4>
+						<p>{{immeuble.adresse}}</p> 
+						{% if immeuble.fonctionnalites is not empty %}
+						<p>Fonctionnalité de l'immeuble</p>
+						<ul>
+						 {% for fonctionnalite in immeuble.fonctionnalites %} 
+						 <li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{fonctionnalite.fonctionnalite}}</li>
+						{% endfor %}
+						
+						{% endif %}
+						</ul>
+						<a href="#" style="color: #d92400; font-weight: bold;">Plus de détails sur l'immeuble...</a>
+						{% endfor %}
+						<div class="box">
+							<div class="google-map"><i class="fa fa-map-marker"></i></div>
+						</div>
+			        </div>
+                </div>
+     		</div>
+     	</div>
+     </div> 
+	 
+  {# <!-- End of Appartement a louer description--> #}
+   
+   
+
+{% endfor %}
+{% endif %}
+
+{# <!-- End of Appartement a louer Modal Boxes --> #}
+
+{# <!-- Maison a louer Modal Boxes  --> #}
+     {# <!-- maison a louer description--> #}
+
+	 {% if maisonsALouer is not empty %}
+	 {% for maisonALouer in maisonsALouer %}
+	 
+     <div id="{{'description_maison_louer' ~ maisonALouer.id }}" class="modal fade main-modal"  tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-6 col-sm-push-3">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+			        <div class="description">
+			        	<h4>Description de {{maisonALouer.type}}</h4>
+			        	<div class="box">
+			        	<p class="word_wrap">{{ maisonALouer.description}}</p>
+                        <ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Surface : {{maisonALouer.surface}} m²</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.chambres}} Chambres</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.sallesDeBain}} Salle de bains</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.cuisines}} Cuisines</li>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.salons}} Salons</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.etages}} Etages</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.garages}} Garages</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.piscines}} Piscines</li>
+							<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{maisonALouer.jardins}} Jardin</li>
+                        </ul>
+						<p>Statistique</p>
+						<ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Total : {{maisonALouer.nbreTypeMaison}}</li>
+                    		<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Mis en vente : {{maisonALouer.nbreMaisonALouer}}</li>
+                        
+                        </ul>
+                        <p class="footer">
+                        	<span class="title">Prix</span><span class="label label-danger text-left">{{maisonALouer.prix}} FCFA</span>
+                        </p>
+                        </div>
+			        </div>
+                	<div class="map">
+            		   {% for cite in maisonALouer.cites %} 
+						<h4>Cité {{cite.titre}}</h4>
+						<p>{{cite.adresse}}</p> 
+						{% if cite.fonctionnalites is not empty %}
+						<p>Fonctionnalité de la Cité</p>
+						<ul>
+						 {% for fonctionnalite in cite.fonctionnalites %} 
+						 <li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{fonctionnalite.fonctionnalite}}</li>
+						{% endfor %}
+						
+						{% endif %}
+						</ul>
+						<a href="#" style="color: #d92400; font-weight: bold;">Plus de détails sur la cité...</a>
+						{% endfor %}
+						<div class="box">
+							<div class="google-map"><i class="fa fa-map-marker"></i></div>
+						</div>
+			        </div>
+                </div>
+     		</div>
+     	</div>
+     </div> 
+	 
+  {# <!-- End of maison  louer description--> #}
+ 
+{% endfor %}
+{% endif %}
+{# <!-- End of maison Modal Boxes --> #}
+
+  {# <!-- Cantine Modal Boxes  --> #}
+     {# <!-- cantine  description--> #}
+
+	 {% if cantinesALouer is not empty %}
+	 {% for cantineALouer in cantinesALouer %}
+	 
+     <div id="{{'description_cantine_louer' ~ cantineALouer.id }}" class="modal fade main-modal"  tabindex="-1" aria-hidden="true">
+     	<div class="container-fluid row">
+     		<div class="modal-content col-xs-12 col-sm-6 col-sm-push-3">
+     			<div class="modal-content-header">
+                  <i class="fa fa-times animation" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-content-body">
+			        <div class="description">
+			        	<h4>Description de {{cantineALouer.type}}</h4>
+			        	<div class="box">
+			        	<p class="word_wrap">{{ cantineALouer.description}}</p>
+                        <ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Surface : {{cantineALouer.surface}} m²</li>
+                        	
+                        </ul>
+						<p>Statistique</p>
+						<ul>
+                        	<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Total : {{cantineALouer.nbreTypeCantine}}</li>
+                    		<li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;Nombre Mis en vente : {{cantineALouer.nbreCantineALouer}}</li>
+                        
+                        </ul>
+                        <p class="footer">
+                        	<span class="title">Prix</span><span class="label label-danger text-left">{{cantineALouer.prix}} FCFA</span>
+                        </p>
+                        </div>
+			        </div>
+                	<div class="map">
+            		   {% for centre in cantineALouer.centres %} 
+						<h4>Centre commercial  {{centre.titre}}</h4>
+						<p>{{centre.adresse}}</p> 
+						{% if centre.fonctionnalites is not empty %}
+						<p>Fonctionnalité de la Cité</p>
+						<ul>
+						 {% for fonctionnalite in centre.fonctionnalites %} 
+						 <li><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;{{fonctionnalite.fonctionnalite}}</li>
+						{% endfor %}
+						
+						{% endif %}
+						</ul>
+						<a href="#" style="color: #d92400; font-weight: bold;">Plus de détails sur le centre commercial...</a>
+						{% endfor %}
+						<div class="box">
+							<div class="google-map"><i class="fa fa-map-marker"></i></div>
+						</div>
+			        </div>
+                </div>
+     		</div>
+     	</div>
+     </div> 
+	 
+  {# <!-- End of cantine a louer description--> #}
+ 
+{% endfor %}
+{% endif %}
+  
+  {# <!-- End of cantines Modal Boxes --> #}
+{% endblock %}
+
+ {# end of modalBoxesLocation #}
+
+{% block javascripts %}
+	
+	{{parent()}}
+	
+	{{ encore_entry_script_tags('form_search') }}
+	
+{% endblock %}
+
+{% block homejavascript %}
+	{{ encore_entry_script_tags('change_intro_section') }}
+{% endblock %}
+
+

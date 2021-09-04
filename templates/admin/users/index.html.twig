@@ -1,0 +1,59 @@
+{% extends "./admin/index.html.twig" %}
+{% block intro %}
+<div class="container">
+    <div class="jumbotron text-center" style="padding-top: 100px;">
+        <h1>Holding CAFAO - Administration </h1>
+        <h2>Ajouter un administrateur</h2>
+    </div>
+    
+    {% if users is not empty %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Email</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.nom }}</td>
+        <td>{{ user.prenom }}</td>
+        <td>{{ user.email }}</td>
+        
+        <td>
+          {% if is_granted('ROLE_SUPER_ADMIN') or app.user.id == user.id %}
+          <a href="{{ path('admin.user.edit', {id: user.id, slug: user.slug}) }}" class="btn btn-secondary">Editer</a>
+          {% endif %}
+          {% if is_granted('ROLE_SUPER_ADMIN') %}
+          <form method="post" action="{{ path('admin.user.delete', {id: user.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+            <button class="btn btn-danger">Supprimer</button>
+          </form>
+          {% endif %}
+          
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+  <h2>Aucun utilisateurs dans la base de données</h2> 
+  
+  {% endif %}
+  {% if is_granted('ROLE_SUPER_ADMIN') %}
+    <div class="text-right">
+        <a href="{{ path('admin.user.create') }}" class="btn btn-primary">Créer un nouveau administrateur</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {# {{ encore_entry_script_tags('new_immeuble') }} #}
+
+{% endblock %}

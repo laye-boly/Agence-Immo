@@ -1,0 +1,23 @@
+{% extends "./admin/index.html.twig" %}
+{% block intro %}
+<div class="container text-center">
+  <div class="jumbotron" style="margin-top: 100px;">
+    <h3>Holding CAFAO - Administration </h3>
+    <h4>Editer la fonctionnalité</h4>
+  </div>
+  
+    {{form_start(form)}}
+    <div class="row">
+        <div class="col-sm-12 col-sm-6">{{form_row(form.fonctionnalite)}}</div>
+        <div class="col-sm-12 col-sm-6">{{form_row(form.submit)}}</div>
+    </div>
+    {{form_end(form)}}
+  
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+ 
+  {{ encore_entry_script_tags('new_fonctionnalite') }}
+
+{% endblock %}

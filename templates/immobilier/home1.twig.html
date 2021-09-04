@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-color nav-font-size">
+    		
+  <a class="navbar-brand" href="{{path('immobilier_index')}}">
+    <img src="{{ asset('images/LogoHoldingCAFAO.png')}}" alt="">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  	 <ul class="navbar-nav mr-auto">
+           
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff !important;">
+          Immobilier
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Réalisations</a>
+          <a class="dropdown-item" href="#">Projets en cours</a>
+          <a class="dropdown-item" href="#">Projet à venir</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff !important;">
+          Energie Solaires
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Panneaux Solaires</a>
+          <a class="dropdown-item" href="#">Kits solaires</a>
+          <a class="dropdown-item" href="#">Régulateurs</a>
+          <a class="dropdown-item" href="#">Convertisseurs</a>
+          <a class="dropdown-item" href="#">Ondulateurs</a>
+          <a class="dropdown-item" href="#">Régulateurs</a>
+          <a class="dropdown-item" href="#">Accessoires</a>
+
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link nav-color" href="#">Nos services</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link nav-color" href="#"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>+221 77 425 12 20</a>
+      </li>
+
+
+       <li class="nav-item">
+        <a class="nav-link nav-color" href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"> Nous écrire</span></a>
+      </li>
+
+
+     
+    </ul>
+ 
+
+  </div>
+</nav>

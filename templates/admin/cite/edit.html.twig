@@ -1,0 +1,78 @@
+{% extends "./admin/index.html.twig" %}
+{% block intro %}
+<div class="container">
+<div style="margin-top: 100px;">
+    <div class="jumbotron text-center">
+        <h1>Holding CAFAO - Administration </h1>
+        <h2>Editer la cité</h2>
+    </div> 
+    {{form_start(form)}}
+    {% if cite.images is not empty %}
+        <h2>Les images illustratives de la cité</h2>
+        <div class="row">
+            {% for image in cite.images %}
+             <div class="col-12 col-sm-4" style="margin-bottom: 15px;">
+                 <img src="{{ vich_uploader_asset(image, 'imageFile')}}" class="img-responsive">
+
+                <a href="{{ path('admin.image.delete', {id: image.id}) }}" class="btn btn-danger" 
+                data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    <div class="row">
+        <div class="col-sm-12 col-sm-3">{{form_row(form.immobilier.titre)}}</div>
+        <div class="col-sm-12 col-sm-3">{{form_row(form.immobilier.etat)}}</div>
+        <div class="col-sm-12 col-sm-3">{{form_row(form.immobilier.pictureFiles)}}</div>
+        <div class="col-sm-12 col-sm-3">{{form_row(form.immobilier.debutTravaux)}}</div>
+        
+    </div>
+    <div class="row">
+        
+        <div class="col-sm-12 col-sm-3">{{form_row(form.immobilier.livraison)}}</div>
+        <div class="col-sm-12 col-sm-3">{{form_row(form.immobilier.adresse)}}</div>
+    </div>
+    <div class="col-sm-12">{{form_row(form.immobilier.description)}}</div>
+
+    <div class="container"> 
+         {% for maison in cite.maisons %}
+            {% if maison.images is not empty %}
+        <h3 class="container">Image de la maison {{maison.type}}</h3>
+       
+            {% for image in maison.images %}
+             <div class="col-12 col-sm-4">
+                <img src="{{ vich_uploader_asset(image, 'imageFile')}}" class="img-responsive">
+                <a href="{{ path('admin.image.delete', {id: image.id}) }}" class="btn btn-danger" 
+                data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
+           </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% endfor %}
+    </div> 
+
+    <div class="col-sm-12">
+       {{form_row(form.maisons)}}
+        <a href="#" class="btn btn-danger" id="add_maison">Ajouter un Type de maison</a>
+    </div> 
+   
+    <div class="col-sm-12">{{form_row(form.immobilier.fonctionnalites)}}</div>
+    <div class="col-sm-12">
+        {{form_row(form.immobilier.avancements)}}
+        <a href="#" class="btn btn-danger" id="add_avancement">Indiquer l'avancement des travaux.</a>
+    </div>
+    <div class="col-sm-12 mb-50 mt-20" style="z-index: 1000;">{{form_row(form.immobilier.submit)}}</div>
+    </div>
+    {{form_end(form)}}
+        
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+ 
+  {{ encore_entry_script_tags('new_cite') }}
+  {{ encore_entry_script_tags('delete_image') }}
+
+{% endblock %}

@@ -1,0 +1,42 @@
+"
+							 {{ vich_uploader_asset(immobilier.images, 'imageFile') | imagine_filter('thumb_1_575') }} 565w,
+							 {{ vich_uploader_asset(immobilier.images, 'imageFile') | imagine_filter('thumb_1_767') }} 757w,
+							 {{ vich_uploader_asset(immobilier.images, 'imageFile') | imagine_filter('thumb_1_991') }} 981w,
+							 {{ vich_uploader_asset(immobilier.images, 'imageFile') | imagine_filter('thumb_1_1199') }} 1189w
+							"
+
+
+
+/images/immobilier/{{immobilier.images.first.filename}} | imagine_filter('thumb_1_575') }} 565w,
+							 /images/immobilier/{{immobilier.images.first.filename}} | imagine_filter('thumb_1_767') }} 757w,
+							 /images/immobilier/{{immobilier.images.first.filename}} | imagine_filter('thumb_1_991') }} 981w,
+							 /images/immobilier/{{immobilier.images.first.filename}} | imagine_filter('thumb_1_1199') }} 1189w
+							"
+
+
+{# <img srcset="/images/immobilier/{{immobilier.images.first.filename |  imagine_filter('thumb_1_575') }} 565w,
+							 images/immobilier/{{immobilier.images.first.filename | imagine_filter('thumb_1_767') }} 757w,
+							 /images/immobilier/{{immobilier.images.first.filename | imagine_filter('thumb_1_991') }}  981w,
+							 /images/immobilier/{{immobilier.images.first.filename | imagine_filter('thumb_1_1199') }} 1189w
+							"
+     			sizes="(max-width: 575.98px) 565px,
+				 	   (max-width: 767.98px) 757px,
+					   (max-width: 991.98px) 981px,
+            		   (max-width: 1199.98px) 1189px
+            		   "
+     			src="/images/defaut/immobilier.jpg" class="d-block w-100" alt="test"  style="width: 100%; height:auto;">
+			  {% else %}
+			  	<img srcset="{{'/images/defaut/immobilier.jpg' | imagine_filter('defaut_1_575') }} 565px,
+							 {{'/images/defaut/immobilier.jpg' | imagine_filter('defaut_1_767') }} 757w,
+							 {{'/images/defaut/immobilier.jpg' | imagine_filter('defaut_1_991') }} 981w,
+							 {{'/images/defaut/immobilier.jpg' | imagine_filter('defaut_1_1199') }} 1189w
+							"
+     			sizes="(max-width: 575.98px) 565px,
+				 	   (max-width: 767.98px) 757px,
+					   (max-width: 991.98px) 981px,
+            		   (max-width: 1199.98px) 1189px
+            		   "
+     			src="/images/defaut/immobilier.jpg" class="d-block w-100" alt="par defaut"  style="width: 100%; height:auto;">
+      			 #}
+
+			http://localhost:8000/media/cache/resolve/defaut_1_575/images/defaut/immobilier.jpg 565px

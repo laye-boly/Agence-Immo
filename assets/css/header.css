@@ -1,0 +1,167 @@
+body{
+	color: #205;
+	font-size: 2.5em;
+	font-family: 'Robotto';
+	background: #fff;
+
+}
+.white-color {
+	color: #fff;
+}
+.z-index-500{
+	z-index: 500;
+}
+
+.bg-f55{
+	background-color: #f55;
+}
+
+#contact-1{
+    	color: #fff;
+    	text-align: center;
+    	position: fixed;
+    	bottom: 0;
+    	z-index: 1000;
+    	font-size: 1em;	
+    	width: 100%;
+}
+
+.fa-facebook-f:hover{
+	color: #3b5998;
+}
+.fa-twitter:hover{
+	color: #00acee ;
+}
+.fa-youtube:hover{
+	color: #c4302b;
+}
+
+#menu-immobilier li:hover, #menu-solaire li:hover{
+	background-color: #f66;
+}
+
+
+
+
+/*Medium devices (tablets, less than 992px) */
+@media (max-width: 575.98px) { 
+
+	.col-xm-4{
+		flex: 0 0 33.333333%;
+		max-width: 33.333333%;
+		position: relative;
+    	width: 100%;
+    	padding-right: 15px;
+    	padding-left: 15px;
+	}
+
+	.wrapper{
+		padding: 0px;
+		margin: 0px;
+		font-size: 1em;
+	}
+
+	header{	
+		height: 110px;
+    	padding-top: 15px;
+    	background: #fff;
+    	position: relative;
+    	z-index: 499;
+	}
+
+	#logo{
+		width: 155px;
+		height: 77px;		
+	}
+
+	#menu-hamburger{
+		margin-right: 20px;
+	}
+
+	#menu-symbol{
+		font-size: 50px;
+	}
+
+	#menu-wrapper{
+    	position: absolute;
+    	width: 100%;
+    	display: none; 
+       	color: #fff;
+    	padding: 10px 10px 0px 5px;
+	}
+
+	#menu a {
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.flex{
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.flex-row{
+		flex-direction: row;
+	}
+
+	.flex-column{
+		flex-direction: column;
+	}
+
+	#nav{
+		flex-direction: column;
+	}
+
+	#contact {
+		margin-top: 70px;
+	}
+
+	#contact-sociaux{
+		margin-bottom: 30px;
+		flex-direction: row;
+		justify-content: space-around;
+		
+
+	}
+
+	.contact-phone-mail{
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	.fab{
+		font-size: 30px;
+		color: white;
+	}
+
+	ul li {
+		list-style-type: none;
+	}
+
+	.text-center{
+		text-align: center;
+	}
+
+	#menu-solaire li, #menu-immobilier li{
+		padding-top: 2px 0px 2px 4px;
+		height: 50px;
+	}
+
+	.bold{
+		font-weight: bold;
+	}
+
+	.img-caroussel-height{
+		height: 250px !important;
+		margin-bottom: 15px;
+	}
+
+	
+
+	
+
+		
+	
+} 
+
+
+

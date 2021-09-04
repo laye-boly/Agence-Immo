@@ -1,0 +1,41 @@
+{% extends './home.html.twig'%}
+{% block intro %}
+<div id="intro" class="container" style="padding-top: 90px;">
+    {% if immobiliers is not empty  %}
+        {% set nbreColonne = 1 %}
+        {% for immobilier in immobiliers  %}
+            {% if (nbreColonne - 1) % 4 == 0 %}
+		    <div class="row" style="margin: 80px 0 110px 0;">
+		    {% endif %}
+            <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="card img-block">
+                {# <img src="..." class="card-img-top" alt="..."> #}
+                {% if immobilier.images is not empty  %}
+	  			<img class="img-responsive card-img-top" src="{{ vich_uploader_asset(immobilier.images.first, 'imageFile')}}" alt="Image de l'immeible">
+				{% else %}
+				<img class="img-responsive card-img-top" src="/images/defaut/immobilier.jpg" alt="Image de l'immeible">				
+				
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title text-danger font-weight-bold">{{immobilier.titre}}</h5>
+                    <p class="card-text text-justify word_wrap">{{immobilier.description | slice(0, 100) | nl2br }}...</p>
+                    <div class="carousel-caption-btn">
+                        <a href="{{path('immobilier.show', {slug: immobilier.slug, id: immobilier.id})}}" class="btn animation btn-custom">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            {% if nbreColonne % 4 == 0 or immobiliers|length == nbreColonne %}
+		    </div>
+		    {% endif %}
+            {% set nbreColonne = nbreColonne + 1 %}
+        {% endfor %}
+        
+    {% else %}
+    <div class="jumbotron text-center">
+        <p>Nous n'avons pas des projets dans ce type</p>
+    </div>
+    
+    {% endif %}
+</div>
+{% endblock %}

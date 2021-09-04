@@ -1,0 +1,27 @@
+{% extends "./admin/index.html.twig" %}
+{% block intro %}
+<div class="container">
+  <div class="jumbotron text-center" style="margin-top: 100px;">
+    <h3>Holding CAFAO - Administration </h3>
+    <h4><a href="{{path('index')}}">Retouner à l'accueil</a></h4>
+    <h4>Une nouvelle fonctionnalité</h4>
+  </div>
+  <div class="row">
+    <form class="form-inline col-sm-12" method="post">
+		  <input type="hidden" name="nbreAjout" id="nbre-ajout" value="0">
+      <input type="hidden" name="_token" value="{{ csrf_token('fonctionnalite') }}">
+			<div id="champ_fonctionnalite"></div>
+			<h4><a href="#" id="ajout_fonctionnalite">Ajouter une fonctionnalite</a></h4>
+			<div id="submit" style="display: none;">
+				<button type="submit" class="btn btn-danger" name="form_fonctionnalite">Valider</button>
+			</div>
+		</form>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+ 
+  {{ encore_entry_script_tags('new_fonctionnalite') }}
+
+{% endblock %}

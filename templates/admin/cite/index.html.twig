@@ -1,0 +1,60 @@
+{% extends "./admin/index.html.twig" %}
+{% block intro %}
+    <div class="container mt-4">
+
+    <div class="jumbotron text-center" style="padding-top: 100px;"><h1>Gérer les cités</h1></div>
+   
+    <form method="post" action="{{ path('admin.cite.search')}}" style="display: inline-block">
+            {#<input type="hidden" name="_method" value="DELETE">#}
+            <input type="text" name="search" class="form-control">
+            <input type="hidden" name="_token" value="{{ csrf_token('search') }}"><br/>
+            <button class="btn btn-primary mt-2" type="submit">Rechercher un bien Immobilier par son titre</button>
+          </form>
+<br/>
+    {% for message in app.flashes('success') %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% if cites is not empty %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for cite in cites %}
+      <tr>
+        <td>{{ cite.titre }}</td>
+        <td>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+          <a href="{{ path('admin.cite.edit', {id: cite.id}) }}" class="btn btn-secondary">Editer</a>
+          <form method="post" action="{{ path('admin.cite.delete', {id: cite.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cite.id) }}">
+            <button class="btn btn-danger">Supprimer</button>
+          </form>
+          {% endif %}
+          <a href="{{ path('immobilier.show', {id: cite.id, slug: cite.slug}) }}" class="btn btn-secondary">Voir</a>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+  <h2>Aucune cité ne correspond à votre recherches !</h2> 
+  <a href="{{ path('admin.cite.index') }}" class="btn btn-secondary">Retourner à la liste des cités</a>
+  {% endif %}
+    <div>
+    
+      {{ knp_pagination_render(cites) }}
+    </div>
+    <div class="text-right">
+      <a href="{{ path('admin.cite.create') }}" class="btn btn-primary">Créer une nouvelle cité</a>
+    </div>
+
+  </div>
+{% endblock %}
+
